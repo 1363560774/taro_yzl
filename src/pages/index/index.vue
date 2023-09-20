@@ -9,10 +9,34 @@
     </view>
     <nut-toast :msg="msg2" v-model:visible="show" :type="type" :cover="cover"/>
   </view>
+  <nut-cell-group title="基础用法">
+    <nut-cell>
+      <nut-radio-group v-model="radioVal">
+        <nut-radio label="1">选项1</nut-radio>
+        <nut-radio disabled label="2">选项2</nut-radio>
+        <nut-radio label="3">选项3</nut-radio>
+      </nut-radio-group>
+    </nut-cell>
+    <nut-cell>
+      <nut-radio-group v-model="radioVal" text-position="left">
+        <nut-radio label="1">选项1</nut-radio>
+        <nut-radio disabled label="2">选项2</nut-radio>
+        <nut-radio label="3">选项3</nut-radio>
+      </nut-radio-group>
+    </nut-cell>
+    <nut-cell>
+      <nut-radio-group v-model="radioVal">
+        <nut-radio shape="button" label="1">选项1</nut-radio>
+        <nut-radio disabled shape="button" label="2">选项2</nut-radio>
+        <nut-radio shape="button" label="3">选项3</nut-radio>
+      </nut-radio-group>
+    </nut-cell>
+  </nut-cell-group>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue';
+import { reactive, toRefs, ref } from 'vue';
+import Taro from '@tarojs/taro'
 import { Dongdong } from '@nutui/icons-vue-taro';
 export default {
   name: 'Index',
@@ -20,6 +44,7 @@ export default {
     Dongdong
   },
   setup() {
+    const radioVal = ref('1');
     const state = reactive({
       msg: '欢迎使用 NutUI4.0 开发小程序',
       msg2: '你成功了～',
@@ -29,6 +54,15 @@ export default {
     });
 
     const handleClick = (type, msg, cover = false) => {
+      Taro.request({
+        url: 'https://www.baidu.com',
+        data: {
+          q: '123'
+        },
+        success(res) {
+          console.log(res)
+        }
+      })
       state.show = true;
       state.msg2 = msg;
       state.type = type;
@@ -36,6 +70,7 @@ export default {
     };
 
     return {
+      radioVal,
       ...toRefs(state),
       handleClick
     }
